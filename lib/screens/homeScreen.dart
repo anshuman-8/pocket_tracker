@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gect_hackathon/Widgets/category.dart';
@@ -8,8 +9,13 @@ import '../utilis/theme.dart';
 import '../utilis/utilWidgets.dart';
 import 'capture_screen.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  // const HomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

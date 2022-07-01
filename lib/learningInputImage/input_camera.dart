@@ -75,6 +75,7 @@ class _InputCameraViewState extends State<InputCameraView> {
       if (_isLive) await _startLiveStream();
       _refresh();
     });
+    _takePhoto();
   }
 
   @override
@@ -368,7 +369,7 @@ class _InputCameraViewState extends State<InputCameraView> {
         ),
       ),
       bottomSheet: PrimaryButton(
-          name: "CAPTURE YOUR BILL",
+          name: "SAVE",
           icon: const Icon(
             CupertinoIcons.down_arrow,
             size: 24,

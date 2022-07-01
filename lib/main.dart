@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
               primaryColorDark: colorDark,
               textTheme: textThemeDefault),
           title: 'Flutter Demo',
-          home: const SafeArea(child: HomeScreen()),
+          home:  SafeArea(child: HomeScreen()),
         ));
   }
 }
