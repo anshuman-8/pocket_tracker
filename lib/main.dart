@@ -20,6 +20,6 @@ class MyApp extends StatelessWidget {
             primaryColorDark: colorDark,
             textTheme: textThemeDefault),
         title: 'Flutter Demo',
-        home: const SafeArea(child: afterCapture()));
+        home: const SafeArea(child: homeScreen()));
   }
 }
