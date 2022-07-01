@@ -6,6 +6,7 @@ import 'package:gect_hackathon/Widgets/primaryButton.dart';
 import 'package:gect_hackathon/Widgets/secondaryButton.dart';
 import '../utilis/theme.dart';
 import '../utilis/utilWidgets.dart';
+import 'capture_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -110,7 +111,17 @@ class HomeScreen extends StatelessWidget {
       bottomSheet: PrimaryButton(
         name: "CAPUTRE YOUR BILL",
         icon: const Icon(CupertinoIcons.camera, color: colorWhite),
-        onPressed: () => {},
+        onPressed: () => {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    // Consumer<TextRecognitionState>(
+                    //   builder: (context, value, child) =>
+                    CaptureScreen(),
+              ))
+          // CaptureScreen(_image!);
+        },
       ),
     );
   }

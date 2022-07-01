@@ -3,15 +3,21 @@ import 'dart:typed_data';
 
 import 'package:camera/camera.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 
-import 'button.dart';
+import '../Widgets/primaryButton.dart';
+import '../Widgets/secondaryButton.dart';
+import '../utilis/theme.dart';
+import '../utilis/utilWidgets.dart';
 import 'input_image.dart';
 import 'input_image_data.dart';
 import 'shared.dart';
+// import '../Widgets/secondaryButton.dart';
+// import '../utilis/utilWidgets.dart';
 
 enum InputCameraMode { live, gallery }
 
@@ -22,10 +28,11 @@ class InputCameraView extends StatefulWidget {
     Key? key,
     required this.title,
     this.overlay,
-    this.mode = InputCameraMode.live,
+    this.mode = InputCameraMode.gallery,
     this.cameraDefault = InputCameraType.rear,
     this.resolutionPreset = ResolutionPreset.low,
     this.canSwitchMode = true,
+    // required this.image,
     this.action,
     this.onTapAction,
     required this.onImage,
@@ -317,60 +324,56 @@ class _InputCameraViewState extends State<InputCameraView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: !widget.canSwitchMode,
-        title: Text(widget.title),
-        // actions: [
-        //   if (widget.canSwitchMode)
-        //     Padding(
-        //       padding: EdgeInsets.only(right: 15),
-        //       child: GestureDetector(
-        //         child: _mode == InputCameraMode.live ? _galerySvg : _cameraSvg,
-        //         onTap: _switchMode,
-        //       ),
-        //     ),
-        // ],
-      ),
       body: SingleChildScrollView(
         child: Column(
-          // crossAxisAlignment: CrossAxisAlignment.,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 24),
-            _image == null ? _imageSvg : _imagePreview,
-            SizedBox(height: 28),
-            // if (_showAction) ...[
-            //   Center(
-            //     child: NormalPinkButton(
-            //       text: widget.action,
-            //       onPressed: widget.onTapAction,
-            //     ),
-            //   ),
-            //   SizedBox(height: 8),
-            // ],
-            Center(
-              child: NormalButton(
-                text: 'Choose Image',
-                textColor: Colors.black,
-                background: Colors.lime,
-                fontSize: 18,
-                onPressed: _chooseImage,
-              ),
+            Padding(
+              padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 1),
+              child: _image == null ? _imageSvg : _imagePreview,
+              // Container(height: MediaQuery.of(context).size.height * 0.73),
             ),
-            SizedBox(height: 8),
-            Center(
-              child: NormalButton(
-                textColor: Colors.black,
-                background: Colors.lime,
-                text: 'Take Photo',
-                fontSize: 18,
-                onPressed: _takePhoto,
-              ),
+            addHorizontalSpace(32),
+            Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    SecondaryButton(
+                        icon: const Icon(
+                          CupertinoIcons.add,
+                          color: colorWhite,
+                        ),
+                        name: "Category",
+                        onPressed: _takePhoto),
+                    SecondaryButton(
+                        icon: const Icon(
+                          CupertinoIcons.add,
+                          color: colorWhite,
+                        ),
+                        name: "Total",
+                        onPressed: _chooseImage)
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Container(width: 180, child: TextField()),
+                    Container(width: 180, child: TextField()),
+                  ],
+                ),
+              ],
             ),
           ],
         ),
       ),
-      // floatingActionButton: _fab,
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      bottomSheet: PrimaryButton(
+          name: "CAPTURE YOUR BILL",
+          icon: const Icon(
+            CupertinoIcons.down_arrow,
+            size: 24,
+          ),
+          onPressed: () => {}),
     );
   }
 }
