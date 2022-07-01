@@ -14,12 +14,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        theme: ThemeData(
-            primaryColor: colorPrimary,
-            primaryColorLight: colorPrimary20,
-            primaryColorDark: colorDark,
-            textTheme: textThemeDefault),
-        title: 'Flutter Demo',
-        home: const SafeArea(child: homeScreen()));
+      theme: ThemeData(
+          primaryColor: colorPrimary,
+          primaryColorLight: colorPrimary20,
+          primaryColorDark: colorDark,
+          textTheme: textThemeDefault),
+      title: 'Flutter Demo',
+      home: const SafeArea(
+        child: HomeScreen(),
+      ),
+    );
   }
 }

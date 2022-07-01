@@ -65,7 +65,7 @@ flutter:
   uses-material-design: true
 
   # To add assets to your application, add an assets section, like this:
-  # assets:
+
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
@@ -79,8 +79,17 @@ flutter:
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
-  # example:
-  # fonts:
+  # example
+  fonts:
+    - family : Abel
+      fonts : 
+        - asset : assets/fonts/Abel-Regular.ttf
+    - family : Lato
+      fonts : 
+        - asset : assets/fonts/Lato-light.ttf
+          weight : 300
+        - asset : assets/fonts/Lato-Bold.ttf
+          weight : 600
   #   - family: Schyler
   #     fonts:
   #       - asset: fonts/Schyler-Regular.ttf
