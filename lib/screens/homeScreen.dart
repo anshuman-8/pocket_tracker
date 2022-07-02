@@ -32,6 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     'fuel': colorBlack
   };
   int totalExpenditure = 0;
+  late final User? user;
 
   String _getTotalExpenditure() {
     totalExpenditure = 0;
@@ -52,24 +53,91 @@ class _HomeScreenState extends State<HomeScreen> {
       }
     });
 
-    return ListView.builder(
-        shrinkWrap: true,
-        itemBuilder: ((context, index) {
-          String key = categoryAmounts.keys.elementAt(index);
-          return CategoryList(
-              amount: categoryAmounts[key].toString(),
-              category: '${key[0].toUpperCase()}${key.substring(1)}',
-              color: (categoryColors.keys.contains(key)
-                  ? categoryColors[key]
-                  : colorPrimary)!);
-        }),
-        itemCount: categoryAmounts.length);
+    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      addVerticalSpace(32),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: 40,
+          decoration: const BoxDecoration(
+              color: colorPrimary,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(10),
+                bottomRight: Radius.circular(2000),
+                topLeft: Radius.circular(10),
+                topRight: Radius.circular(10),
+              )),
+          child: Padding(
+            padding: const EdgeInsets.only(left: 16, right: 16),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    const Icon(Icons.account_balance_wallet_outlined),
+                    Text(
+                      "TOTAL EXPENDITURE",
+                      style: textThemeDefault.labelMedium,
+                    ),
+                  ],
+                ),
+                Text(
+                  "RS " + _getTotalExpenditure(),
+                  style: textThemeDefault.labelMedium,
+                )
+              ],
+            ),
+          ),
+        ),
+      ),
+      addVerticalSpace(12),
+      SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: const [
+              InfoButton(text: "Week"),
+              InfoButton(text: "Month"),
+              InfoButton(text: "Year")
+            ],
+          )),
+      addVerticalSpace(48),
+      Container(
+        margin: EdgeInsets.fromLTRB(0, 110, 0, 0),
+        height: 50,
+        child: DonutChart(categoryAmounts, categoryColors),
+      ),
+      Container(
+        height: 130,
+      ),
+      addVerticalSpace(48),
+      Container(
+          height: 152,
+          child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
+              child: Column(children: [
+                ListView.builder(
+                    shrinkWrap: true,
+                    itemBuilder: ((context, index) {
+                      String key = categoryAmounts.keys.elementAt(index);
+                      return CategoryList(
+                          amount: categoryAmounts[key].toString(),
+                          category:
+                              '${key[0].toUpperCase()}${key.substring(1)}',
+                          color: (categoryColors.keys.contains(key)
+                              ? categoryColors[key]
+                              : colorPrimary)!);
+                    }),
+                    itemCount: categoryAmounts.length)
+              ])))
+    ]);
   }
 
   @override
   void initState() {
     super.initState();
-    final User? user = FirebaseAuth.instance.currentUser;
+    user = FirebaseAuth.instance.currentUser;
     print(user?.displayName);
   }
 
@@ -79,99 +147,31 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          addVerticalSpace(32),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: 40,
-              decoration: const BoxDecoration(
-                  color: colorPrimary,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(2000),
-                    topLeft: Radius.circular(10),
-                    topRight: Radius.circular(10),
-                  )),
-              child: Padding(
-                padding: const EdgeInsets.only(left: 16, right: 16),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        const Icon(Icons.account_balance_wallet_outlined),
-                        Text(
-                          "TOTAL EXPENDITURE",
-                          style: textThemeDefault.labelMedium,
-                        ),
-                      ],
-                    ),
-                    Text(
-                      "RS " + _getTotalExpenditure(),
-                      style: textThemeDefault.labelMedium,
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
-          addVerticalSpace(12),
-          SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: const [
-                  InfoButton(text: "Week"),
-                  InfoButton(text: "Month"),
-                  InfoButton(text: "Year")
-                ],
-              )),
-          addVerticalSpace(48),
-          Container(
-            margin: EdgeInsets.fromLTRB(0, 110, 0, 0),
-            height: 50,
-            child: DonutChart(categoryAmounts, categoryColors),
-          ),
-          Container(
-            height: 130,
-          ),
-          addVerticalSpace(48),
-          Container(
-            height: 152,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.vertical,
-              child: Column(
-                children: [
-                  StreamBuilder<QuerySnapshot>(
-                      stream: FirebaseFirestore.instance
-                          .collection('users')
-                          .doc('user1')
-                          .collection('bills')
-                          .snapshots(),
-                      builder: (context, snapshot) {
-                        print('Here');
-                        if (snapshot.hasData) {
-                          print('Has Data');
-                          _bills = [];
-                          for (int i = 0; i < snapshot.data!.docs.length; i++) {
-                            DocumentSnapshot document = snapshot.data!.docs[i];
-                            _bills.add(Bill(
-                                amount: document['amount'],
-                                category: document['category'],
-                                timestamp: document['timestamp'],
-                                imgName: document['imgName']));
-                            print(snapshot.data!.docs[i].data());
-                          }
-                          return _billSummaryBuilder();
-                        } else {
-                          return const CircularProgressIndicator();
-                        }
-                      })
-                ],
-              ),
-            ),
-          ),
+          StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance
+                  .collection('users')
+                  .doc(user?.uid)
+                  .collection('bills')
+                  .snapshots(),
+              builder: (context, snapshot) {
+                print('Here');
+                if (snapshot.hasData) {
+                  print('Has Data');
+                  _bills = [];
+                  for (int i = 0; i < snapshot.data!.docs.length; i++) {
+                    DocumentSnapshot document = snapshot.data!.docs[i];
+                    _bills.add(Bill(
+                        amount: document['amount'],
+                        category: document['category'],
+                        timestamp: document['timestamp'],
+                        imgName: document['imgName']));
+                    print(snapshot.data!.docs[i].data());
+                  }
+                  return _billSummaryBuilder();
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              }),
           addVerticalSpace(72),
           SecondaryButton(
               name: "Expenditure",
@@ -181,6 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
+                Navigator.of(context).popAndPushNamed('/login');
               })
         ],
       ),

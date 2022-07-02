@@ -22,7 +22,8 @@ class _SignupScreenState extends State<SignupScreen> {
     try {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
-              email: _emailController.text, password: _passwordController.text);
+              email: _emailController.text.trim(),
+              password: _passwordController.text.trim());
       final user = userCredential.user;
       await user?.updateDisplayName(_nameController.text);
       Navigator.pushReplacementNamed(context, '/home-screen');
