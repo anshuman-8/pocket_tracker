@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+// import 'package:gect_hackathon/Widgets/alertBox.dart';
 import 'package:gect_hackathon/Widgets/customInput.dart';
 import 'package:gect_hackathon/utilis/theme.dart';
 import 'package:gect_hackathon/utilis/utilWidgets.dart';
@@ -32,12 +33,48 @@ class _SignupScreenState extends State<SignupScreen> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');
+        await _showAlert("Weak Password", "Password provided is too weak.");
       } else if (e.code == 'email-already-in-use') {
         print('The account already exists for that email.');
+        await _showAlert("Alert", "The account already exists for that email");
       }
     } catch (e) {
       print(e);
+      await _showAlert('Error', e.toString());
     }
+  }
+
+  Future<void> _showAlert(String title, String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            style: textThemeDefault.headline2,
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message, style: textThemeDefault.bodyText1),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                'OK',
+                style: textThemeDefault.bodyText1,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override

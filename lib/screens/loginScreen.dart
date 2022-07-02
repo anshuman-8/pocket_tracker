@@ -27,12 +27,47 @@ class _LoginScreenState extends State<LoginScreen> {
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
+        _showAlert("Alert", "No user found for that email");
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
+        _showAlert("Alert", "Wrong password provided for that user");
       } else {
         print(e);
       }
     }
+  }
+
+  Future<void> _showAlert(String title, String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(
+            title,
+            style: textThemeDefault.headline2,
+          ),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(message, style: textThemeDefault.bodyText1),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text(
+                'OK',
+                style: textThemeDefault.bodyText1,
+              ),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   final TextEditingController _emailController = TextEditingController();
