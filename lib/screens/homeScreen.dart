@@ -10,6 +10,7 @@ import '../utilis/theme.dart';
 import '../utilis/utilWidgets.dart';
 import '../models/models.dart';
 import 'capture_screen.dart';
+import '../Widgets/addReciept.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -167,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CupertinoIcons.add,
                 color: colorWhite,
               ),
-              onPressed: () => {})
+              onPressed: () => {AddReciept()})
         ],
       ),
       bottomSheet: PrimaryButton(
