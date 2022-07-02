@@ -68,16 +68,66 @@ class _SignupScreenState extends State<SignupScreen> {
               icon: CupertinoIcons.mail,
               controller: _emailController,
             ),
-            CustomInput(
-              hint: "ENTER YOUR PASSWORD",
-              icon: CupertinoIcons.padlock,
-              controller: _passwordController,
-            ),
-            CustomInput(
-              hint: "CONFIRM YOUR PASSWORD",
-              icon: CupertinoIcons.padlock_solid,
-              controller: _confirmPasswordController,
-            ),
+            // CustomInput(
+            //   hint: "ENTER YOUR PASSWORD",
+            //   icon: CupertinoIcons.padlock,
+            //   controller: _passwordController,
+            // ),
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: TextField(
+                      obscureText: true,
+                      style: textThemeDefault.bodyText2,
+                      decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: colorPrimary),
+                          ),
+                          suffixIcon: Icon(
+                            CupertinoIcons.padlock,
+                            color: colorPrimary,
+                          ),
+                          border: const OutlineInputBorder(),
+                          hintText: "ENTER YOUR PASSWORD",
+                          hintStyle: textThemeDefault.bodyText2,
+                          fillColor: colorDark,
+                          filled: true),
+                      controller: _passwordController,
+                    ),
+                  ),
+                ]),
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: TextField(
+                      style: textThemeDefault.bodyText2,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: colorPrimary),
+                          ),
+                          suffixIcon: Icon(
+                            CupertinoIcons.padlock_solid,
+                            color: colorPrimary,
+                          ),
+                          border: const OutlineInputBorder(),
+                          hintText: "CONFIRM YOUR PASSWORD",
+                          hintStyle: textThemeDefault.bodyText2,
+                          fillColor: colorDark,
+                          filled: true),
+                      controller: _confirmPasswordController,
+                    ),
+                  ),
+                ]),
+            // CustomInput(
+            //   hint: "CONFIRM YOUR PASSWORD",
+            //   icon: CupertinoIcons.padlock_solid,
+            //   controller: _confirmPasswordController,
+            // ),
             addVerticalSpace(42),
             TextButton(
                 onPressed: _signUp,

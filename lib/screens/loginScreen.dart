@@ -61,11 +61,36 @@ class _LoginScreenState extends State<LoginScreen> {
               icon: CupertinoIcons.mail,
               controller: _emailController,
             ),
-            CustomInput(
-              hint: "ENTER YOUR PASSWORD",
-              icon: CupertinoIcons.padlock,
-              controller: _passwordController,
-            ),
+            // CustomInput(
+            //   hint: "ENTER YOUR PASSWORD",
+            //   icon: CupertinoIcons.padlock,
+            //   controller: _passwordController,
+            // ),
+            Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 16),
+                    child: TextField(
+                      obscureText: true,
+                      style: textThemeDefault.bodyText2,
+                      decoration: InputDecoration(
+                          focusedBorder: const OutlineInputBorder(
+                            borderSide: BorderSide(color: colorPrimary),
+                          ),
+                          suffixIcon: Icon(
+                            CupertinoIcons.padlock,
+                            color: colorPrimary,
+                          ),
+                          border: const OutlineInputBorder(),
+                          hintText: "ENTER YOUR PASSWORD",
+                          hintStyle: textThemeDefault.bodyText2,
+                          fillColor: colorDark,
+                          filled: true),
+                      controller: _passwordController,
+                    ),
+                  ),
+                ]),
             addVerticalSpace(88),
             TextButton(
                 onPressed: _signin,
