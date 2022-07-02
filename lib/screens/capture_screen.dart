@@ -24,7 +24,6 @@ class _CaptureScreenState extends State<CaptureScreen> {
       state.startProcessing();
       state.image = image;
       state.data = await _textRecognition?.process(image);
-      print(state.data);
       state.stopProcessing();
     }
   }
