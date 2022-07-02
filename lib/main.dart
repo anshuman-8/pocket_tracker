@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
               primaryColorLight: colorPrimary20,
               primaryColorDark: colorDark,
               textTheme: textThemeDefault),
-          title: 'Flutter Demo',
+          title: 'Pocket Tracker',
           home: SafeArea(child: HomeScreen()),
         ));
   }
