@@ -41,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _billSummaryBuilder() {
+    categoryAmounts.clear();
     _bills.forEach((bill) {
       if (categoryAmounts.containsKey(bill.category)) {
         categoryAmounts[bill.category] =

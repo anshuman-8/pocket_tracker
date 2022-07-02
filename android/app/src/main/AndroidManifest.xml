@@ -1,5 +1,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.gect_hackathon">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+
    <application
         android:label="gect_hackathon"
         android:name="${applicationName}"
