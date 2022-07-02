@@ -25,13 +25,14 @@ class MyApp extends StatelessWidget {
           ChangeNotifierProvider(create: (context) => TextRecognitionState())
         ],
         child: MaterialApp(
+          debugShowCheckedModeBanner: false,
           theme: ThemeData(
               primaryColor: colorPrimary,
               primaryColorLight: colorPrimary20,
               primaryColorDark: colorDark,
               textTheme: textThemeDefault),
           title: 'Flutter Demo',
-          home:  SafeArea(child: HomeScreen()),
+          home: SafeArea(child: HomeScreen()),
         ));
   }
 }

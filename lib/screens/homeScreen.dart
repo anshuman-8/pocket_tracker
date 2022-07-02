@@ -1,4 +1,4 @@
-import 'dart:io';
+import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gect_hackathon/Widgets/category.dart';
@@ -12,12 +12,6 @@ import '../models/models.dart';
 import 'capture_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
