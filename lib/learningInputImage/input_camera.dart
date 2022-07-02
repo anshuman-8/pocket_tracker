@@ -59,6 +59,10 @@ class _InputCameraViewState extends State<InputCameraView> {
   ImagePicker? _imagePicker;
   int _cameraIndex = 0;
 
+  String _dropDownValue = 'Fuel';
+
+  var _dropItems = ["Grocery", "Medical", "Food", "Fuel", "Others"];
+
   CameraDescription get camera => cameras[_cameraIndex];
   bool get _isLive => _mode == InputCameraMode.live;
   bool get _hasAction => widget.action != null;
@@ -344,25 +348,56 @@ class _InputCameraViewState extends State<InputCameraView> {
                   children: [
                     SecondaryButton(
                         icon: const Icon(
-                          CupertinoIcons.add,
+                          CupertinoIcons.camera,
                           color: colorWhite,
                         ),
-                        name: "Category",
+                        name: "Retake",
                         onPressed: _takePhoto),
                     SecondaryButton(
                         icon: const Icon(
-                          CupertinoIcons.add,
+                          CupertinoIcons.folder,
                           color: colorWhite,
                         ),
-                        name: "Total",
+                        name: "Choose Local",
                         onPressed: _chooseImage)
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(width: 180, child: TextField()),
-                    Container(width: 180, child: TextField()),
+                    Container(
+                      width: 180,
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: DropdownButton(
+                        // Initial Value
+                        value: _dropDownValue,
+                        underline: Container(
+                          height: 2,
+                          color: colorSecondary,
+                        ),
+                        // Down Arrow Icon
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        // Array list of items
+                        items: _dropItems
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        // After selecting the desired option,it will
+                        // change button value to selected value
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            _dropDownValue = newValue!;
+                          });
+                        },
+                      ),
+                    ),
+                    Container(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        width: 180,
+                        child: TextField()),
                   ],
                 ),
               ],
