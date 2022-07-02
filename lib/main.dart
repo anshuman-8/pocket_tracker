@@ -1,9 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gect_hackathon/screens/capture_screen.dart';
 import 'package:gect_hackathon/screens/homeScreen.dart';
 import 'package:gect_hackathon/screens/loginScreen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gect_hackathon/screens/signUp.dart';
 import 'package:gect_hackathon/screens/splashScreen.dart';
 import 'package:gect_hackathon/utilis/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -66,7 +65,7 @@ class MainPage extends StatelessWidget {
           print(snapshot.data);
           return HomeScreen();
         } else {
-          return LoginScreen();
+          return SplashScreen();
         }
       }),
       stream: FirebaseAuth.instance.authStateChanges(),

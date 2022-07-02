@@ -7,16 +7,16 @@ import '../learnTextRecognition/learn_text_recognition.dart';
 import '../learningInputImage/learn_input_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 // import 'package:image_picker/image_picker.dart';
-import 'afterCapture.dart';
 
 class CaptureScreen extends StatefulWidget {
+  const CaptureScreen({Key? key}) : super(key: key);
+
   @override
   State<CaptureScreen> createState() => _CaptureScreenState();
 }
 
 class _CaptureScreenState extends State<CaptureScreen> {
   // const afterCapture({Key? key}) : super(key: key);
-  TextRecognition? _textRecognition = TextRecognition();
 
   // Future<void> _startRecognition(InputImage image) async {
   //   TextRecognitionState state =
@@ -68,14 +68,15 @@ class _CaptureScreenState extends State<CaptureScreen> {
               child: Container(
                 height: MediaQuery.of(context).size.height * 0.9,
                 width: MediaQuery.of(context).size.width * 0.95,
-                padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                padding:
+                    const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                 decoration: BoxDecoration(
                   color: Colors.white.withOpacity(0.8),
                   borderRadius: BorderRadius.all(Radius.circular(4.0)),
                 ),
                 child: Text(
                   state.text,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.w500,
                   ),
                 ),

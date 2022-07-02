@@ -5,6 +5,8 @@ import 'package:gect_hackathon/utilis/theme.dart';
 import 'package:gect_hackathon/utilis/utilWidgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import '../Widgets/bigLogo.dart';
+
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
@@ -53,7 +55,9 @@ class _SignupScreenState extends State<SignupScreen> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            addVerticalSpace(250),
+            addVerticalSpace(72),
+            const Logo(),
+            addVerticalSpace(42),
             CustomInput(
               hint: "ENTER YOUR NAME",
               icon: CupertinoIcons.text_alignright,
@@ -74,7 +78,7 @@ class _SignupScreenState extends State<SignupScreen> {
               icon: CupertinoIcons.padlock_solid,
               controller: _confirmPasswordController,
             ),
-            addVerticalSpace(76),
+            addVerticalSpace(42),
             TextButton(
                 onPressed: _signUp,
                 child: Container(

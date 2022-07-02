@@ -1,7 +1,8 @@
+// ignore: file_names
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gect_hackathon/Widgets/bigLogo.dart';
 import 'package:gect_hackathon/Widgets/customInput.dart';
-import 'package:gect_hackathon/Widgets/primaryButton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gect_hackathon/utilis/theme.dart';
 import 'package:gect_hackathon/utilis/utilWidgets.dart';
@@ -45,13 +46,15 @@ class _LoginScreenState extends State<LoginScreen> {
       width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [colorPrimary, colorSecondary]),
+          colors: [colorPrimary, Color(0xeaadecca)],
+          begin: Alignment.topRight,
+        ),
       ),
       child: Column(
         children: [
-          addVerticalSpace(300),
+          addVerticalSpace(72),
+          const Logo(),
+          addVerticalSpace(72),
           CustomInput(
             hint: "ENTER YOUR EMAIL",
             icon: CupertinoIcons.mail,
@@ -62,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
             icon: CupertinoIcons.padlock,
             controller: _passwordController,
           ),
-          addVerticalSpace(132),
+          addVerticalSpace(88),
           TextButton(
               onPressed: () {
                 _signin();
@@ -89,7 +92,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       .push(MaterialPageRoute(builder: (context) {
                     return SignupScreen();
                   })),
-              child: Text("Sign Up"))
+              child: Text(
+                "NEW USER ? SIGN IN",
+                style: textThemeDefault.button,
+              ))
         ],
       ),
     ));

@@ -1,4 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gect_hackathon/Widgets/bigLogo.dart';
+import 'package:gect_hackathon/Widgets/primaryButton.dart';
+import 'package:gect_hackathon/Widgets/secondaryButton.dart';
 import 'package:gect_hackathon/utilis/theme.dart';
 import 'package:gect_hackathon/utilis/utilWidgets.dart';
 
@@ -13,21 +17,28 @@ class SplashScreen extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomRight,
-            colors: [colorPrimary, colorSecondary]),
+          colors: [colorPrimary, Color(0xeaadecca)],
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+        ),
       ),
       child: Column(
         children: [
           addVerticalSpace(180),
-          Container(
-            height: 180,
-            width: 180,
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-            ),
-          ),
+          const Logo(),
+          addVerticalSpace(64),
+          PrimaryButton(
+              name: "JUST ONE TAP AWAY",
+              icon: const Icon(CupertinoIcons.arrow_right),
+              onPressed: () => {Navigator.of(context).pushNamed('/login')}),
+          const Text(
+            "IT'S THAT EASY",
+            style: TextStyle(
+                fontFamily: 'Abel',
+                fontSize: 14,
+                letterSpacing: 1.2,
+                color: colorDark),
+          )
         ],
       ),
     ));
