@@ -52,7 +52,7 @@ class InputCameraView extends StatefulWidget {
   final String? action;
   final void Function()? onTapAction;
   // final Function(InputImage inputImage) onImage;
-  final Function(int total, String category) onSave;
+  final Function(int total, String category, File? imageFile) onSave;
 
   @override
   _InputCameraViewState createState() => _InputCameraViewState();
@@ -217,7 +217,7 @@ class _InputCameraViewState extends State<InputCameraView> {
 
   void _handleSave() {
     widget.onSave(int.parse(_totalTextController.text),
-        "${_dropDownValue.toLowerCase()}");
+        "${_dropDownValue.toLowerCase()}", this._image);
   }
 
   Widget get _imagePreview => Center(

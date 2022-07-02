@@ -1,14 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-// import 'package:gect_hackathon/Widgets/secondaryButton.dart';
-// import 'package:gect_hackathon/utilis/utilWidgets.dart';
-// import '../learningInputImage/input_camera.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 import '../learnTextRecognition/learn_text_recognition.dart';
 import '../learningInputImage/learn_input_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-// import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class CaptureScreen extends StatefulWidget {
   const CaptureScreen({Key? key}) : super(key: key);
@@ -27,7 +26,21 @@ class _CaptureScreenState extends State<CaptureScreen> {
     user = FirebaseAuth.instance.currentUser;
   }
 
-  void _onSave(int total, String category) {
+  void _onSave(int total, String category, File? imageFile) {
+    String filename = Uuid().v4();
+    final storageRef = FirebaseStorage.instance.ref();
+    final imgRef = storageRef.child("media/users/${user?.uid}/$filename");
+    try {
+      print("---------------------");
+      print(imageFile.toString());
+      String imgExt = imageFile!.path.substring(
+          imageFile.path.lastIndexOf('.') + 1, imageFile.path.length);
+      print("Here");
+      _uploadImage(imgRef, imageFile, imgExt);
+    } catch (e) {
+      print(e);
+    }
+
     print(total);
     print(category);
     FirebaseFirestore.instance
@@ -38,9 +51,14 @@ class _CaptureScreenState extends State<CaptureScreen> {
       'amount': total,
       'category': category,
       'timestamp': Timestamp.now(),
-      'imgName': ""
+      'imgName': imageFile == null ? "" : filename
     });
     Navigator.of(context).pop();
+  }
+
+  void _uploadImage(Reference imgRef, File imageFile, String imgExt) async {
+    imgRef.putFile(imageFile, SettableMetadata(contentType: 'image/$imgExt'));
+    print("File Uploaded");
   }
 
   @override
