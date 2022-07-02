@@ -1,3 +1,4 @@
+import 'package:gect_hackathon/Widgets/donut.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,11 +7,14 @@ import 'package:gect_hackathon/Widgets/infoButton.dart';
 import 'package:gect_hackathon/Widgets/primaryButton.dart';
 import 'package:gect_hackathon/Widgets/secondaryButton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import '../Widgets/donut.dart';
 import '../utilis/theme.dart';
 import '../utilis/utilWidgets.dart';
 import '../models/models.dart';
 import 'capture_screen.dart';
 import '../Widgets/addReciept.dart';
+// import 'package:flutter/material.dart';
+import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -19,43 +23,45 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Bill> _bills = [];
+  Map<String, int> categoryAmounts = {};
+  Map<String, Color> categoryColors = {
+    'food': colorPrimary,
+    'grocery': colorSecondary,
+    'medical': Colors.green,
+    'fuel': colorBlack
+  };
+  int totalExpenditure = 0;
 
   String _getTotalExpenditure() {
-    int total = 0;
+    totalExpenditure = 0;
     _bills.forEach((bill) {
-      total = total + bill.amount;
+      totalExpenditure = totalExpenditure + bill.amount;
     });
-    return total.toString();
+    return totalExpenditure.toString();
   }
 
   Widget _billSummaryBuilder() {
-    Map<String, int> categories = {};
-    Map<String, Color> categoryColors = {
-      'food': colorPrimary,
-      'grocery': colorSecondary,
-      'medical': colorWhite,
-      'fuel': colorBlack
-    };
     _bills.forEach((bill) {
-      if (categories.containsKey(bill.category)) {
-        categories[bill.category] = categories[bill.category]! + bill.amount;
+      if (categoryAmounts.containsKey(bill.category)) {
+        categoryAmounts[bill.category] =
+            categoryAmounts[bill.category]! + bill.amount;
       } else {
-        categories[bill.category] = bill.amount;
+        categoryAmounts[bill.category] = bill.amount;
       }
     });
 
     return ListView.builder(
         shrinkWrap: true,
         itemBuilder: ((context, index) {
-          String key = categories.keys.elementAt(index);
+          String key = categoryAmounts.keys.elementAt(index);
           return CategoryList(
-              amount: categories[key].toString(),
+              amount: categoryAmounts[key].toString(),
               category: '${key[0].toUpperCase()}${key.substring(1)}',
               color: (categoryColors.keys.contains(key)
                   ? categoryColors[key]
                   : colorPrimary)!);
         }),
-        itemCount: categories.length);
+        itemCount: categoryAmounts.length);
   }
 
   @override
@@ -118,7 +124,12 @@ class _HomeScreenState extends State<HomeScreen> {
               )),
           addVerticalSpace(48),
           Container(
-            height: 260,
+            margin: EdgeInsets.fromLTRB(0, 110, 0, 0),
+            height: 50,
+            child: DonutChart(categoryAmounts, categoryColors),
+          ),
+          Container(
+            height: 130,
           ),
           addVerticalSpace(48),
           Container(
@@ -168,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       bottomSheet: PrimaryButton(
-        name: "CAPUTRE YOUR BILL",
+        name: "CAPTURE YOUR BILL",
         icon: const Icon(CupertinoIcons.camera, color: colorWhite),
         onPressed: () => {
           Navigator.push(
