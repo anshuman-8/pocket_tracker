@@ -120,32 +120,12 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 260,
           ),
           addVerticalSpace(48),
-          SingleChildScrollView(
-            physics: const BouncingScrollPhysics(),
-            scrollDirection: Axis.vertical,
-            child: Container(
-              height: 152,
+          Container(
+            height: 152,
+            child: SingleChildScrollView(
+              physics: const BouncingScrollPhysics(),
+              scrollDirection: Axis.vertical,
               child: Column(
-                // children: const [
-                //   CategoryList(
-                //       amount: "5000", category: "FOOD", color: colorPrimary),
-                //   CategoryList(
-                //       amount: "2000", category: "CLOTH", color: colorPrimary20),
-                //   CategoryList(
-                //       amount: "1000", category: "FOOD", color: colorBlack),
-                //   CategoryList(
-                //       amount: "7000",
-                //       category: "INTERNET",
-                //       color: colorSecondary),
-                //   CategoryList(
-                //       amount: "7000",
-                //       category: "INTERNET",
-                //       color: colorSecondary),
-                //   CategoryList(
-                //       amount: "7000",
-                //       category: "INTERNET",
-                //       color: colorSecondary),
-                // ],
                 children: [
                   StreamBuilder<QuerySnapshot>(
                       stream: FirebaseFirestore.instance

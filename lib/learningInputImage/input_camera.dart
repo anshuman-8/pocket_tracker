@@ -109,11 +109,6 @@ class _InputCameraViewState extends State<InputCameraView> {
     }
   }
 
-  // Future<void> _restartLiveStream() async {
-  //   await _stopLiveStream();
-  //   await _startLiveStream();
-  // }
-
   Future<void> _startLiveStream() async {
     _controller = CameraController(
       camera,
@@ -221,8 +216,8 @@ class _InputCameraViewState extends State<InputCameraView> {
   }
 
   void _handleSave() {
-    widget.onSave(
-        int.parse(_totalTextController.text), _categoryController.text);
+    widget.onSave(int.parse(_totalTextController.text),
+        "${_dropDownValue.toLowerCase()}");
   }
 
   Widget get _imagePreview => Center(
@@ -267,20 +262,6 @@ class _InputCameraViewState extends State<InputCameraView> {
         height: 32,
         color: Colors.white,
       );
-
-  // Widget get _fab {
-  //   if (_mode == InputCameraMode.gallery) return Container();
-  //   if (cameras.length == 1) return Container();
-
-  //   return Container(
-  //     height: 72,
-  //     width: 72,
-  //     child: FloatingActionButton(
-  //       child: _flipSvg,
-  //       onPressed: _switchCamera,
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -353,7 +334,9 @@ class _InputCameraViewState extends State<InputCameraView> {
                     Container(
                         padding: const EdgeInsets.only(bottom: 16),
                         width: 180,
-                        child: TextField()),
+                        child: TextField(
+                          controller: _totalTextController,
+                        )),
                   ],
                 ),
               ],
