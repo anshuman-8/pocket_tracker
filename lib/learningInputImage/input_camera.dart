@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -8,9 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
+import '../screens/capture_screen.dart';
 
 import '../Widgets/primaryButton.dart';
 import '../Widgets/secondaryButton.dart';
+import '../learnTextRecognition/text_recognition.dart';
 import '../utilis/theme.dart';
 import '../utilis/utilWidgets.dart';
 import 'input_image.dart';
@@ -35,7 +39,8 @@ class InputCameraView extends StatefulWidget {
     // required this.image,
     this.action,
     this.onTapAction,
-    required this.onImage,
+    // required this.onImage,
+    required this.onSave,
   }) : super(key: key);
 
   final String title;
@@ -46,13 +51,17 @@ class InputCameraView extends StatefulWidget {
   final bool canSwitchMode;
   final String? action;
   final void Function()? onTapAction;
-  final Function(InputImage inputImage) onImage;
+  // final Function(InputImage inputImage) onImage;
+  final Function(int total, String category) onSave;
 
   @override
   _InputCameraViewState createState() => _InputCameraViewState();
 }
 
 class _InputCameraViewState extends State<InputCameraView> {
+  final TextEditingController _totalTextController = TextEditingController();
+  final TextEditingController _categoryController = TextEditingController();
+
   InputCameraMode _mode = InputCameraMode.live;
   CameraController? _controller;
   File? _image;
@@ -119,23 +128,6 @@ class _InputCameraViewState extends State<InputCameraView> {
     _controller = null;
   }
 
-  // Future<void> _switchMode() async {
-  //   if (_isLive) {
-  //     _mode = InputCameraMode.gallery;
-  //     await _stopLiveStream();
-  //   } else {
-  //     _mode = InputCameraMode.live;
-  //     await _startLiveStream();
-  //   }
-
-  //   _refresh();
-  // }
-
-  // Future<void> _switchCamera() async {
-  //   _cameraIndex = _cameraIndex == 0 ? 1 : 0;
-  //   await _restartLiveStream();
-  // }
-
   Future<void> _chooseImage() async {
     await _getImage(ImageSource.gallery);
   }
@@ -156,7 +148,7 @@ class _InputCameraViewState extends State<InputCameraView> {
 
       final img = await decodeImageFromList(image.readAsBytesSync());
 
-      widget.onImage(InputImage.fromFile(image,
+      _startRecognition(InputImage.fromFile(image,
           metadata: InputImageData(
             size: Size(img.width.toDouble(), img.height.toDouble()),
           )));
@@ -199,71 +191,35 @@ class _InputCameraViewState extends State<InputCameraView> {
       ),
     );
 
-    widget.onImage(inputImage);
+    _startRecognition(inputImage);
+    // widget.onImage(inputImage);
   }
 
-  // Widget get _live {
-  //   if (_controller != null && _controller!.value.isInitialized) {
-  //     return Container(
-  //       color: Colors.black,
-  //       child: Stack(
-  //         fit: StackFit.expand,
-  //         children: [
-  //           CameraPreview(_controller!),
-  //           widget.overlay ?? Container(),
-  //         ],
-  //       ),
-  //     );
-  //   }
+  Future<void> _startRecognition(InputImage image) async {
+    TextRecognition? _textRecognition = TextRecognition();
+    TextRecognitionState state =
+        Provider.of<TextRecognitionState>(context, listen: false);
 
-  //   return Container();
-  // }
+    if (state.isNotProcessing) {
+      state.startProcessing();
+      state.image = image;
+      state.data = await _textRecognition?.process(image);
+      print("##############" + state.data!.text);
+      int total = findTotal(state.data!.text);
+      print("Here Here");
+      String tot = total.toString();
+      setState(() {
+        _totalTextController.text = tot;
+      });
+      print(tot);
+      state.stopProcessing();
+    }
+  }
 
-  // Widget get _gallery {
-  //   return SingleChildScrollView(
-  //     child: Column(
-  //       // crossAxisAlignment: CrossAxisAlignment.,
-  //       children: [
-  //         SizedBox(height: 24),
-  //         _image == null ? _imageSvg : _imagePreview,
-  //         SizedBox(height: 28),
-  //         // if (_showAction) ...[
-  //         //   Center(
-  //         //     child: NormalPinkButton(
-  //         //       text: widget.action,
-  //         //       onPressed: widget.onTapAction,
-  //         //     ),
-  //         //   ),
-  //         //   SizedBox(height: 8),
-  //         // ],
-  //         Center(
-  //           child: NormalButton(
-  //             text: 'Choose Image',
-  //             textColor: Colors.black,
-  //             background: Colors.lime,
-  //             fontSize: 18,
-  //             onPressed: _chooseImage,
-  //           ),
-  //         ),
-  //         SizedBox(height: 8),
-  //         Center(
-  //           child: NormalButton(
-  //             textColor: Colors.black,
-  //             background: Colors.lime,
-  //             text: 'Take Photo',
-  //             fontSize: 18,
-  //             onPressed: _takePhoto,
-  //           ),
-
-  //           //  NormalBlueButton(
-  //           //   text: 'take anything',
-  //           //   onPressed: _takePhoto,
-  //           // ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
+  void _handleSave() {
+    widget.onSave(
+        int.parse(_totalTextController.text), _categoryController.text);
+  }
 
   Widget get _imagePreview => Center(
         child: Container(
@@ -347,22 +303,30 @@ class _InputCameraViewState extends State<InputCameraView> {
                           CupertinoIcons.add,
                           color: colorWhite,
                         ),
-                        name: "Category",
+                        name: "Retake",
                         onPressed: _takePhoto),
                     SecondaryButton(
                         icon: const Icon(
                           CupertinoIcons.add,
                           color: colorWhite,
                         ),
-                        name: "Total",
+                        name: "Gallery",
                         onPressed: _chooseImage)
                   ],
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(width: 180, child: TextField()),
-                    Container(width: 180, child: TextField()),
+                    Container(
+                        width: 180,
+                        child: TextField(
+                          controller: _categoryController,
+                        )),
+                    Container(
+                        width: 180,
+                        child: TextFormField(
+                          controller: _totalTextController,
+                        )),
                   ],
                 ),
               ],
@@ -376,7 +340,83 @@ class _InputCameraViewState extends State<InputCameraView> {
             CupertinoIcons.down_arrow,
             size: 24,
           ),
-          onPressed: () => {}),
+          onPressed: _handleSave),
     );
   }
+}
+
+int count = 0;
+
+bool isNumeric(String s) {
+  if (s == null) {
+    return false;
+  }
+  return double.tryParse(s) != null;
+}
+
+int findTotal(String text) {
+  List<String> textLines = text.split('\n');
+  List<int> amounts = [];
+
+  for (String str in textLines) {
+    str = str.replaceAll(". ", ".");
+    var lstr = str.split(" ");
+    for (String str2 in lstr) {
+      if (isNumeric(str2)) {
+        var num = double.parse(str2).toInt();
+        if (num > 10000 || num <= 10) continue;
+        amounts.add(num);
+      }
+    }
+  }
+  print(amounts.toString());
+  HashMap<int, int> num_map = new HashMap();
+
+  for (int num in amounts) {
+    count = 0;
+    var tmp = [...amounts];
+    tmp.remove(num);
+    sum_up(tmp, num);
+    if (count > 0) {
+      num_map[num] = count;
+      // print(num);
+    }
+  }
+  print(num_map.toString());
+
+  int highestcount = 0;
+  int highest = 0;
+  for (int x in num_map.keys) {
+    if (num_map[x]! > highestcount) {
+      highest = x;
+      highestcount = num_map[x]!;
+    }
+  }
+  print('Highest: ' + highest.toString());
+  return highest;
+}
+
+void sum_up_recursive(List<int> numbers, int target, List<int> partial) {
+  int target1 = target - (target * 0.05).toInt();
+  int target2 = target + (target * 0.05).toInt();
+
+  int s = 0;
+  for (int x in partial) s += x;
+  if (s >= target1 && s <= target2) {
+    // print("sum(" + partial.toString() + ")=" + target.toString());
+    count++;
+  }
+  if (s >= target) return;
+  for (int i = 0; i < numbers.length; i++) {
+    List<int> remaining = [];
+    int n = numbers[i];
+    for (int j = i + 1; j < numbers.length; j++) remaining.add(numbers[j]);
+    List<int> partial_rec = [...partial];
+    partial_rec.add(n);
+    sum_up_recursive(remaining, target, partial_rec);
+  }
+}
+
+void sum_up(List<int> numbers, int target) {
+  sum_up_recursive(numbers, target, []);
 }
