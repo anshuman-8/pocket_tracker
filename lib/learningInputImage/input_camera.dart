@@ -348,17 +348,17 @@ class _InputCameraViewState extends State<InputCameraView> {
                   children: [
                     SecondaryButton(
                         icon: const Icon(
-                          CupertinoIcons.add,
+                          CupertinoIcons.camera,
                           color: colorWhite,
                         ),
-                        name: "Category",
+                        name: "Retake",
                         onPressed: _takePhoto),
                     SecondaryButton(
                         icon: const Icon(
-                          CupertinoIcons.add,
+                          CupertinoIcons.folder,
                           color: colorWhite,
                         ),
-                        name: "Total",
+                        name: "Choose Local",
                         onPressed: _chooseImage)
                   ],
                 ),
@@ -367,17 +367,16 @@ class _InputCameraViewState extends State<InputCameraView> {
                   children: [
                     Container(
                       width: 180,
-                      padding: EdgeInsets.symmetric(horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: DropdownButton(
                         // Initial Value
                         value: _dropDownValue,
                         underline: Container(
                           height: 2,
-                          color: Color.fromRGBO(106, 166, 174, 1),
+                          color: colorSecondary,
                         ),
                         // Down Arrow Icon
                         icon: const Icon(Icons.keyboard_arrow_down),
-                        elevation: 16,
                         // Array list of items
                         items: _dropItems
                             .map<DropdownMenuItem<String>>((String value) {
@@ -395,7 +394,10 @@ class _InputCameraViewState extends State<InputCameraView> {
                         },
                       ),
                     ),
-                    Container(width: 180, child: TextField()),
+                    Container(
+                        padding: const EdgeInsets.only(bottom: 16),
+                        width: 180,
+                        child: TextField()),
                   ],
                 ),
               ],
