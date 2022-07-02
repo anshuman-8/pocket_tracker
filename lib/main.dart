@@ -9,6 +9,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'navigator.dart';
+import './screens/recent_transaction.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
