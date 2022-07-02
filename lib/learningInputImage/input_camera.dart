@@ -75,6 +75,7 @@ class _InputCameraViewState extends State<InputCameraView> {
       if (_isLive) await _startLiveStream();
       _refresh();
     });
+    _takePhoto();
   }
 
   @override
@@ -330,8 +331,10 @@ class _InputCameraViewState extends State<InputCameraView> {
           children: [
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(16, 0, 16, 1),
-              child: _image == null ? _imageSvg : _imagePreview,
-              // Container(height: MediaQuery.of(context).size.height * 0.73),
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.73,
+                child: _image == null ? _imageSvg : _imagePreview,
+              ),
             ),
             addHorizontalSpace(32),
             Column(
@@ -368,7 +371,7 @@ class _InputCameraViewState extends State<InputCameraView> {
         ),
       ),
       bottomSheet: PrimaryButton(
-          name: "CAPTURE YOUR BILL",
+          name: "SAVE",
           icon: const Icon(
             CupertinoIcons.down_arrow,
             size: 24,
