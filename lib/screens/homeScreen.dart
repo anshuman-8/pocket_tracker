@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gect_hackathon/Widgets/donut.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
@@ -68,6 +69,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    final User? user = FirebaseAuth.instance.currentUser;
+    print(user?.displayName);
   }
 
   @override
@@ -176,7 +179,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 CupertinoIcons.add,
                 color: colorWhite,
               ),
-              onPressed: () => {AddReciept()})
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+              })
         ],
       ),
       bottomSheet: PrimaryButton(
