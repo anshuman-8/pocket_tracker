@@ -40,13 +40,6 @@ class MyApp extends StatelessWidget {
     // });
     return MultiProvider(
         providers: [
-          // Provider<AuthenticationServices>(
-          //     create: (_) => AuthenticationServices(FirebaseAuth.instance)),
-          // StreamProvider(
-          //   create: (context) =>
-          //       context.read<AuthenticationServices>().authStateChanges,
-          //       initialData: User(),
-          // ),
           ChangeNotifierProvider(create: (context) => TextRecognitionState())
         ],
         child: MaterialApp(
@@ -69,6 +62,7 @@ class MainPage extends StatelessWidget {
     return StreamBuilder<User?>(
       builder: ((context, snapshot) {
         if (snapshot.hasData) {
+          print("####################");
           print(snapshot.data);
           return HomeScreen();
         } else {

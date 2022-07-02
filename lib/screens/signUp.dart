@@ -23,6 +23,9 @@ class _SignupScreenState extends State<SignupScreen> {
       UserCredential userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
               email: _emailController.text, password: _passwordController.text);
+      final user = userCredential.user;
+      await user?.updateDisplayName(_nameController.text);
+      Navigator.pushReplacementNamed(context, '/home-screen');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
         print('The password provided is too weak.');

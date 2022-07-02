@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gect_hackathon/Widgets/customInput.dart';
 import 'package:gect_hackathon/Widgets/primaryButton.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gect_hackathon/main.dart';
-import 'package:provider/provider.dart';
 import 'package:gect_hackathon/utilis/theme.dart';
 import 'package:gect_hackathon/utilis/utilWidgets.dart';
 import 'signUp.dart';
@@ -17,22 +15,6 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   FirebaseAuth.instance.authStateChanges().listen((User? user) {
-  //     if (user == null) {
-  //       // isSignedIn = false;
-  //       print("Not signed in");
-  //       Navigator.of(context).popAndPushNamed('/login');
-  //     } else {
-  //       print('User is signed in!');
-  //       // isSignedIn = true;
-  //       Navigator.of(context).popAndPushNamed('/home-screen');
-  //     }
-  //   });
-  // }
-
   void _signin() async {
     try {
       UserCredential userCredential =
