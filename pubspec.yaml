@@ -41,6 +41,8 @@ dependencies:
   path_provider: ^2.0.11
   learning_text_recognition: ^0.0.4
   provider: ^6.0.3
+  cloud_firestore: ^3.2.1
+  firebase_core: ^1.19.1
 
 dev_dependencies:
   flutter_test:

@@ -4,12 +4,48 @@ import 'package:gect_hackathon/Widgets/category.dart';
 import 'package:gect_hackathon/Widgets/infoButton.dart';
 import 'package:gect_hackathon/Widgets/primaryButton.dart';
 import 'package:gect_hackathon/Widgets/secondaryButton.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import '../utilis/theme.dart';
 import '../utilis/utilWidgets.dart';
+import '../models/models.dart';
 import 'capture_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  List<Bill> _bills = [];
+
+  Widget _billSummaryBuilder() {
+    Map<String, int> categories = {};
+    _bills.forEach((bill) {
+      if (categories.containsKey(bill.category)) {
+        categories[bill.category] = categories[bill.category]! + bill.amount;
+      } else {
+        categories[bill.category] = bill.amount;
+      }
+    });
+
+    return ListView.builder(
+        shrinkWrap: true,
+        itemBuilder: ((context, index) {
+          String key = categories.keys.elementAt(index);
+          return CategoryList(
+              amount: categories[key].toString(),
+              category: '${key[0].toUpperCase()}${key.substring(1)}',
+              color: colorPrimary);
+        }),
+        itemCount: categories.length);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,31 +105,58 @@ class HomeScreen extends StatelessWidget {
             height: 260,
           ),
           addVerticalSpace(48),
-          Container(
-            height: 152,
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              scrollDirection: Axis.vertical,
+          SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            scrollDirection: Axis.vertical,
+            child: Container(
+              height: 152,
               child: Column(
-                children: const [
-                  CategoryList(
-                      amount: "5000", category: "FOOD", color: colorPrimary),
-                  CategoryList(
-                      amount: "2000", category: "CLOTH", color: colorPrimary20),
-                  CategoryList(
-                      amount: "1000", category: "FOOD", color: colorBlack),
-                  CategoryList(
-                      amount: "7000",
-                      category: "INTERNET",
-                      color: colorSecondary),
-                  CategoryList(
-                      amount: "7000",
-                      category: "INTERNET",
-                      color: colorSecondary),
-                  CategoryList(
-                      amount: "7000",
-                      category: "INTERNET",
-                      color: colorSecondary),
+                // children: const [
+                //   CategoryList(
+                //       amount: "5000", category: "FOOD", color: colorPrimary),
+                //   CategoryList(
+                //       amount: "2000", category: "CLOTH", color: colorPrimary20),
+                //   CategoryList(
+                //       amount: "1000", category: "FOOD", color: colorBlack),
+                //   CategoryList(
+                //       amount: "7000",
+                //       category: "INTERNET",
+                //       color: colorSecondary),
+                //   CategoryList(
+                //       amount: "7000",
+                //       category: "INTERNET",
+                //       color: colorSecondary),
+                //   CategoryList(
+                //       amount: "7000",
+                //       category: "INTERNET",
+                //       color: colorSecondary),
+                // ],
+                children: [
+                  StreamBuilder<QuerySnapshot>(
+                      stream: FirebaseFirestore.instance
+                          .collection('users')
+                          .doc('user1')
+                          .collection('bills')
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        print('Here');
+                        if (snapshot.hasData) {
+                          print('Has Data');
+                          _bills = [];
+                          for (int i = 0; i < snapshot.data!.docs.length; i++) {
+                            DocumentSnapshot document = snapshot.data!.docs[i];
+                            _bills.add(Bill(
+                                amount: document['amount'],
+                                category: document['category'],
+                                timestamp: document['timestamp'],
+                                imgName: document['imgName']));
+                            print(snapshot.data!.docs[i].data());
+                          }
+                          return _billSummaryBuilder();
+                        } else {
+                          return const CircularProgressIndicator();
+                        }
+                      })
                 ],
               ),
             ),
