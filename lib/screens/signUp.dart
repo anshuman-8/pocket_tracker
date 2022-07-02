@@ -4,15 +4,17 @@ import 'package:gect_hackathon/Widgets/customInput.dart';
 import 'package:gect_hackathon/utilis/theme.dart';
 import 'package:gect_hackathon/utilis/utilWidgets.dart';
 
+import '../Widgets/bigLogo.dart';
+
 class SignupScreen extends StatelessWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController name = new TextEditingController();
+    TextEditingController name = TextEditingController();
     TextEditingController email = TextEditingController();
     TextEditingController password = TextEditingController();
-    TextEditingController confirmPassword = new TextEditingController();
+    TextEditingController confirmPassword = TextEditingController();
 
     return Scaffold(
         body: Container(
@@ -27,7 +29,9 @@ class SignupScreen extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            addVerticalSpace(250),
+            addVerticalSpace(42),
+            const Logo(),
+            addVerticalSpace(42),
             CustomInput(
               hint: "ENTER YOUR NAME",
               icon: CupertinoIcons.text_alignright,
@@ -48,7 +52,7 @@ class SignupScreen extends StatelessWidget {
               icon: CupertinoIcons.padlock_solid,
               controller: confirmPassword,
             ),
-            addVerticalSpace(76),
+            addVerticalSpace(64),
             TextButton(
                 onPressed: () => {},
                 child: Container(

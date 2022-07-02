@@ -1,7 +1,8 @@
+// ignore: file_names
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gect_hackathon/Widgets/bigLogo.dart';
 import 'package:gect_hackathon/Widgets/customInput.dart';
-import 'package:gect_hackathon/Widgets/primaryButton.dart';
 import 'package:gect_hackathon/utilis/theme.dart';
 import 'package:gect_hackathon/utilis/utilWidgets.dart';
 
@@ -21,44 +22,48 @@ class loginScreen extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
         gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [colorPrimary, colorSecondary]),
+          colors: [colorPrimary, Color(0xeaadecca)],
+          begin: Alignment.topRight,
+        ),
       ),
-      child: Column(
-        children: [
-          addVerticalSpace(300),
-          CustomInput(
-            hint: "ENTER YOUR EMAIL",
-            icon: CupertinoIcons.mail,
-            controller: email,
-          ),
-          CustomInput(
-            hint: "ENTER YOUR PASSWORD",
-            icon: CupertinoIcons.padlock,
-            controller: password,
-          ),
-          addVerticalSpace(132),
-          TextButton(
-              onPressed: () => {},
-              child: Container(
-                width: 120,
-                height: 40,
-                decoration: const BoxDecoration(
-                    color: colorPrimary,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    )),
-                alignment: Alignment.center,
-                child: Text(
-                  "LOGIN",
-                  style: textThemeDefault.bodyText1,
-                ),
-              ))
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            addVerticalSpace(42),
+            Logo(),
+            addVerticalSpace(76),
+            CustomInput(
+              hint: "ENTER YOUR EMAIL",
+              icon: CupertinoIcons.mail,
+              controller: email,
+            ),
+            CustomInput(
+              hint: "ENTER YOUR PASSWORD",
+              icon: CupertinoIcons.padlock,
+              controller: password,
+            ),
+            addVerticalSpace(132),
+            TextButton(
+                onPressed: () => {},
+                child: Container(
+                  width: 120,
+                  height: 40,
+                  decoration: const BoxDecoration(
+                      color: colorPrimary,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      )),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "LOGIN",
+                    style: textThemeDefault.bodyText1,
+                  ),
+                ))
+          ],
+        ),
       ),
     ));
   }

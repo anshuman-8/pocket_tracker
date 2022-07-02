@@ -4,7 +4,6 @@ import 'package:gect_hackathon/Widgets/primaryButton.dart';
 import 'package:gect_hackathon/Widgets/secondaryButton.dart';
 import 'package:gect_hackathon/utilis/theme.dart';
 import 'package:gect_hackathon/utilis/utilWidgets.dart';
-import 'dart:collection';
 
 class AfterCapture extends StatelessWidget {
   const AfterCapture({Key? key}) : super(key: key);

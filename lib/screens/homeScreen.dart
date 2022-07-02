@@ -1,5 +1,4 @@
 import 'package:gect_hackathon/Widgets/donut.dart';
-import 'package:intl/intl.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gect_hackathon/Widgets/category.dart';
@@ -14,9 +13,10 @@ import '../models/models.dart';
 import 'capture_screen.dart';
 import '../Widgets/addReciept.dart';
 // import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_charts/charts.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -128,10 +128,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: 50,
             child: DonutChart(categoryAmounts, categoryColors),
           ),
-          Container(
-            height: 130,
-          ),
-          addVerticalSpace(48),
+          addVerticalSpace(148),
           Container(
             height: 152,
             child: SingleChildScrollView(
@@ -146,9 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           .collection('bills')
                           .snapshots(),
                       builder: (context, snapshot) {
-                        print('Here');
                         if (snapshot.hasData) {
-                          print('Has Data');
                           _bills = [];
                           for (int i = 0; i < snapshot.data!.docs.length; i++) {
                             DocumentSnapshot document = snapshot.data!.docs[i];
@@ -157,7 +152,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 category: document['category'],
                                 timestamp: document['timestamp'],
                                 imgName: document['imgName']));
-                            print(snapshot.data!.docs[i].data());
+                            // print(snapshot.data!.docs[i].data());
                           }
                           return _billSummaryBuilder();
                         } else {
@@ -175,7 +170,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 CupertinoIcons.add,
                 color: colorWhite,
               ),
-              onPressed: () => {AddReciept()})
+              onPressed: () => AddReciept())
         ],
       ),
       bottomSheet: PrimaryButton(

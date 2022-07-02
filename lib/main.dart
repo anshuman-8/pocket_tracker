@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gect_hackathon/screens/capture_screen.dart';
 import 'package:gect_hackathon/screens/homeScreen.dart';
 import 'package:gect_hackathon/screens/loginScreen.dart';
-import 'package:gect_hackathon/screens/signUp.dart';
 import 'package:gect_hackathon/screens/splashScreen.dart';
 import 'package:gect_hackathon/utilis/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
+
+import 'screens/signUp.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +36,7 @@ class MyApp extends StatelessWidget {
               primaryColorDark: colorDark,
               textTheme: textThemeDefault),
           title: 'Pocket Tracker',
-          home: SafeArea(child: SplashScreen()),
+          home: const SafeArea(child: SplashScreen()),
         ));
   }
 }
