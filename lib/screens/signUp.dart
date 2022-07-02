@@ -3,19 +3,44 @@ import 'package:flutter/material.dart';
 import 'package:gect_hackathon/Widgets/customInput.dart';
 import 'package:gect_hackathon/utilis/theme.dart';
 import 'package:gect_hackathon/utilis/utilWidgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import '../Widgets/bigLogo.dart';
 
-class SignupScreen extends StatelessWidget {
+class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController name = TextEditingController();
-    TextEditingController email = TextEditingController();
-    TextEditingController password = TextEditingController();
-    TextEditingController confirmPassword = TextEditingController();
+  State<SignupScreen> createState() => _SignupScreenState();
+}
 
+class _SignupScreenState extends State<SignupScreen> {
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+  TextEditingController _confirmPasswordController = TextEditingController();
+
+  void _signUp() async {
+    try {
+      UserCredential userCredential = await FirebaseAuth.instance
+          .createUserWithEmailAndPassword(
+              email: _emailController.text, password: _passwordController.text);
+      final user = userCredential.user;
+      await user?.updateDisplayName(_nameController.text);
+      Navigator.pushReplacementNamed(context, '/home-screen');
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
       height: MediaQuery.of(context).size.height,
@@ -29,32 +54,32 @@ class SignupScreen extends StatelessWidget {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            addVerticalSpace(42),
+            addVerticalSpace(72),
             const Logo(),
             addVerticalSpace(42),
             CustomInput(
               hint: "ENTER YOUR NAME",
               icon: CupertinoIcons.text_alignright,
-              controller: name,
+              controller: _nameController,
             ),
             CustomInput(
               hint: "ENTER YOUR EMAIL",
               icon: CupertinoIcons.mail,
-              controller: email,
+              controller: _emailController,
             ),
             CustomInput(
               hint: "ENTER YOUR PASSWORD",
               icon: CupertinoIcons.padlock,
-              controller: password,
+              controller: _passwordController,
             ),
             CustomInput(
               hint: "CONFIRM YOUR PASSWORD",
               icon: CupertinoIcons.padlock_solid,
-              controller: confirmPassword,
+              controller: _confirmPasswordController,
             ),
-            addVerticalSpace(64),
+            addVerticalSpace(42),
             TextButton(
-                onPressed: () => {},
+                onPressed: _signUp,
                 child: Container(
                   width: 120,
                   height: 40,

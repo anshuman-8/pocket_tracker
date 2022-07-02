@@ -29,11 +29,15 @@ class SplashScreen extends StatelessWidget {
           addVerticalSpace(64),
           PrimaryButton(
               name: "JUST ONE TAP AWAY",
-              icon: Icon(CupertinoIcons.arrow_right),
-              onPressed: () => {}),
-          Text(
+              icon: const Icon(CupertinoIcons.arrow_right),
+              onPressed: () => {Navigator.of(context).pushNamed('/login')}),
+          const Text(
             "IT'S THAT EASY",
-            style: textThemeDefault.bodyText1,
+            style: TextStyle(
+                fontFamily: 'Abel',
+                fontSize: 14,
+                letterSpacing: 1.2,
+                color: colorDark),
           )
         ],
       ),

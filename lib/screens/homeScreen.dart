@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gect_hackathon/Widgets/donut.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,6 @@ import '../utilis/theme.dart';
 import '../utilis/utilWidgets.dart';
 import '../models/models.dart';
 import 'capture_screen.dart';
-import '../Widgets/addReciept.dart';
 // import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -41,6 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _billSummaryBuilder() {
+    categoryAmounts.clear();
     _bills.forEach((bill) {
       if (categoryAmounts.containsKey(bill.category)) {
         categoryAmounts[bill.category] =
@@ -67,6 +68,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    final User? user = FirebaseAuth.instance.currentUser;
+    print(user?.displayName);
   }
 
   @override
@@ -170,7 +173,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 CupertinoIcons.add,
                 color: colorWhite,
               ),
-              onPressed: () => AddReciept())
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+              })
         ],
       ),
       bottomSheet: PrimaryButton(
