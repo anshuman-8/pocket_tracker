@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import '../learnTextRecognition/learn_text_recognition.dart';
 import '../learningInputImage/learn_input_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 // import 'package:image_picker/image_picker.dart';
 
 class CaptureScreen extends StatefulWidget {
@@ -16,27 +18,13 @@ class CaptureScreen extends StatefulWidget {
 }
 
 class _CaptureScreenState extends State<CaptureScreen> {
-  // const afterCapture({Key? key}) : super(key: key);
-
-  // Future<void> _startRecognition(InputImage image) async {
-  //   TextRecognitionState state =
-  //       Provider.of<TextRecognitionState>(context, listen: false);
-
-  //   if (state.isNotProcessing) {
-  //     state.startProcessing();
-  //     state.image = image;
-  //     state.data = await _textRecognition?.process(image);
-  //     print("##############" + state.data!.text);
-  //     FindTotal.findTotal(state.data!.text);
-  //     state.stopProcessing();
-  //   }
-  // }
-
+  User? user;
   @override
   void initState() {
     // TODO: implement initState
 
     super.initState();
+    user = FirebaseAuth.instance.currentUser;
   }
 
   void _onSave(int total, String category) {
@@ -44,7 +32,7 @@ class _CaptureScreenState extends State<CaptureScreen> {
     print(category);
     FirebaseFirestore.instance
         .collection('users')
-        .doc('user1')
+        .doc(user?.uid)
         .collection('bills')
         .add({
       'amount': total,
@@ -70,16 +58,16 @@ class _CaptureScreenState extends State<CaptureScreen> {
                 width: MediaQuery.of(context).size.width * 0.95,
                 padding:
                     const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                // decoration: BoxDecoration(
-                // color: Colors.white.withOpacity(0.8),
-                // borderRadius: BorderRadius.all(Radius.circular(4.0)),
-                // ),
-                // child: Text(
-                // state.text,
-                // style: const TextStyle(
-                // fontWeight: FontWeight.w500,
-                // ),
-                // ),
+                decoration: BoxDecoration(
+                  color: Colors.white.withOpacity(0.8),
+                  borderRadius: BorderRadius.all(Radius.circular(4.0)),
+                ),
+                child: Text(
+                  state.text,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
             );
           }
