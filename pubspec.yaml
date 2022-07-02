@@ -45,6 +45,7 @@ dependencies:
   firebase_core: ^1.19.1
   syncfusion_flutter_charts: ^19.1.54
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

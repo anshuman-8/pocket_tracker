@@ -20,8 +20,22 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Bill> _bills = [];
 
+  String _getTotalExpenditure() {
+    int total = 0;
+    _bills.forEach((bill) {
+      total = total + bill.amount;
+    });
+    return total.toString();
+  }
+
   Widget _billSummaryBuilder() {
     Map<String, int> categories = {};
+    Map<String, Color> categoryColors = {
+      'food': colorPrimary,
+      'grocery': colorSecondary,
+      'medical': colorWhite,
+      'fuel': colorBlack
+    };
     _bills.forEach((bill) {
       if (categories.containsKey(bill.category)) {
         categories[bill.category] = categories[bill.category]! + bill.amount;
@@ -37,7 +51,9 @@ class _HomeScreenState extends State<HomeScreen> {
           return CategoryList(
               amount: categories[key].toString(),
               category: '${key[0].toUpperCase()}${key.substring(1)}',
-              color: colorPrimary);
+              color: (categoryColors.keys.contains(key)
+                  ? categoryColors[key]
+                  : colorPrimary)!);
         }),
         itemCount: categories.length);
   }
@@ -82,7 +98,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     Text(
-                      "RS 250000",
+                      "RS " + _getTotalExpenditure(),
                       style: textThemeDefault.labelMedium,
                     )
                   ],
