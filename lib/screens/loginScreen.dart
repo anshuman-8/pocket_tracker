@@ -20,17 +20,14 @@ class _LoginScreenState extends State<LoginScreen> {
     try {
       UserCredential userCredential =
           await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text.trim(),
-        password: _passwordController.text.trim(),
+        email: _emailController.text,
+        password: _passwordController.text,
       );
-      await Navigator.of(context).pushNamed('/home-screen');
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
         print('No user found for that email.');
       } else if (e.code == 'wrong-password') {
         print('Wrong password provided for that user.');
-      } else {
-        print(e);
       }
     }
   }
@@ -50,53 +47,53 @@ class _LoginScreenState extends State<LoginScreen> {
           begin: Alignment.topRight,
         ),
       ),
-      child: Column(
-        children: [
-          addVerticalSpace(72),
-          const Logo(),
-          addVerticalSpace(72),
-          CustomInput(
-            hint: "ENTER YOUR EMAIL",
-            icon: CupertinoIcons.mail,
-            controller: _emailController,
-          ),
-          CustomInput(
-            hint: "ENTER YOUR PASSWORD",
-            icon: CupertinoIcons.padlock,
-            controller: _passwordController,
-          ),
-          addVerticalSpace(88),
-          TextButton(
-              onPressed: () {
-                _signin();
-              },
-              child: Container(
-                width: 120,
-                height: 40,
-                decoration: const BoxDecoration(
-                    color: colorPrimary,
-                    borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(10),
-                      bottomRight: Radius.circular(10),
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
-                    )),
-                alignment: Alignment.center,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            addVerticalSpace(72),
+            const Logo(),
+            addVerticalSpace(72),
+            CustomInput(
+              hint: "ENTER YOUR EMAIL",
+              icon: CupertinoIcons.mail,
+              controller: _emailController,
+            ),
+            CustomInput(
+              hint: "ENTER YOUR PASSWORD",
+              icon: CupertinoIcons.padlock,
+              controller: _passwordController,
+            ),
+            addVerticalSpace(88),
+            TextButton(
+                onPressed: _signin,
+                child: Container(
+                  width: 120,
+                  height: 40,
+                  decoration: const BoxDecoration(
+                      color: colorPrimary,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(10),
+                        bottomRight: Radius.circular(10),
+                        topLeft: Radius.circular(10),
+                        topRight: Radius.circular(10),
+                      )),
+                  alignment: Alignment.center,
+                  child: Text(
+                    "LOGIN",
+                    style: textThemeDefault.bodyText1,
+                  ),
+                )),
+            TextButton(
+                onPressed: () => Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (context) {
+                      return SignupScreen();
+                    })),
                 child: Text(
-                  "LOGIN",
-                  style: textThemeDefault.bodyText1,
-                ),
-              )),
-          TextButton(
-              onPressed: () => Navigator.of(context)
-                      .push(MaterialPageRoute(builder: (context) {
-                    return SignupScreen();
-                  })),
-              child: Text(
-                "NEW USER ? SIGN IN",
-                style: textThemeDefault.button,
-              ))
-        ],
+                  "NEW USER ? SIGN IN",
+                  style: textThemeDefault.button,
+                ))
+          ],
+        ),
       ),
     ));
   }

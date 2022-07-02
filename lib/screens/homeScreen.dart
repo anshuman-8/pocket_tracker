@@ -169,7 +169,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return const CircularProgressIndicator();
                 }
               }),
-          addVerticalSpace(72),
+          addVerticalSpace(38),
           SecondaryButton(
               name: "Expenditure",
               icon: const Icon(
