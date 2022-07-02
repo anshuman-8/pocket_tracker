@@ -60,8 +60,8 @@ class MainPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
       builder: ((context, snapshot) {
+        print("############Stream Builder########");
         if (snapshot.hasData) {
-          print("####################");
           print(snapshot.data);
           return HomeScreen();
         } else {
