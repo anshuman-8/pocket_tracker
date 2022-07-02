@@ -19,6 +19,14 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Bill> _bills = [];
 
+  String _getTotalExpenditure() {
+    int total = 0;
+    _bills.forEach((bill) {
+      total = total + bill.amount;
+    });
+    return total.toString();
+  }
+
   Widget _billSummaryBuilder() {
     Map<String, int> categories = {};
     Map<String, Color> categoryColors = {
@@ -89,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                     Text(
-                      "RS 250000",
+                      "RS " + _getTotalExpenditure(),
                       style: textThemeDefault.labelMedium,
                     )
                   ],
