@@ -7,6 +7,7 @@ import 'package:gect_hackathon/Widgets/infoButton.dart';
 import 'package:gect_hackathon/Widgets/primaryButton.dart';
 import 'package:gect_hackathon/Widgets/secondaryButton.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gect_hackathon/screens/myProfile.dart';
 import '../Widgets/donut.dart';
 import '../utilis/theme.dart';
 import '../utilis/utilWidgets.dart';
@@ -172,14 +173,14 @@ class _HomeScreenState extends State<HomeScreen> {
               }),
           addVerticalSpace(38),
           SecondaryButton(
-              name: "Expenditure",
+              name: "Your Profile",
               icon: const Icon(
-                CupertinoIcons.add,
+                CupertinoIcons.person_alt,
                 color: colorWhite,
               ),
               onPressed: () async {
                 await FirebaseAuth.instance.signOut();
-                Navigator.of(context).popAndPushNamed('/login');
+                Navigator.of(context).popAndPushNamed('/myProfile');
               })
         ],
       ),
