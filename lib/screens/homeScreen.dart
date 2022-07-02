@@ -146,10 +146,11 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          addVerticalSpace(32),
           StreamBuilder<QuerySnapshot>(
               stream: FirebaseFirestore.instance
                   .collection('users')
-                  .doc('user1')
+                  .doc(user?.uid)
                   .collection('bills')
                   .snapshots(),
               builder: (context, snapshot) {
