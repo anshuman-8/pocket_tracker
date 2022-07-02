@@ -54,7 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
 
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      addVerticalSpace(32),
+      addVerticalSpace(20),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Container(
@@ -112,7 +112,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       addVerticalSpace(48),
       Container(
-          height: 152,
+          height: 185,
           child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.vertical,
@@ -120,7 +120,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 ListView.builder(
                     shrinkWrap: true,
                     itemBuilder: ((context, index) {
+                      print(categoryAmounts);
                       String key = categoryAmounts.keys.elementAt(index);
+                      print(key);
                       return CategoryList(
                           amount: categoryAmounts[key].toString(),
                           category:
@@ -171,7 +173,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   return const CircularProgressIndicator();
                 }
               }),
-          addVerticalSpace(38),
+          addVerticalSpace(10),
           SecondaryButton(
               name: "Your Profile",
               icon: const Icon(
