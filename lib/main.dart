@@ -2,14 +2,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gect_hackathon/screens/capture_screen.dart';
 import 'package:gect_hackathon/screens/homeScreen.dart';
-import 'package:gect_hackathon/screens/loginScreen.dart';
 import 'package:gect_hackathon/screens/splashScreen.dart';
 import 'package:gect_hackathon/utilis/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'package:provider/provider.dart';
 import 'navigator.dart';
-import './screens/recent_transaction.dart';
+import 'package:flutter/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +16,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseAuth auth = FirebaseAuth.instance;
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   runApp(const MyApp());
 }
 

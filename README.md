@@ -16,19 +16,19 @@ Additionally, the app also has a page for recent bills, where the user can view 
 ## Screenshots
 <img src="assets/preview/1.jpeg"
      alt="Markdown Monster icon"
-     style=" margin: 10px; height: 500px;" />
+     style=" margin: 30px; height: 500px;" />
 <img src="assets/preview/2.jpeg"
      alt="Markdown Monster icon"
-     style=" margin: 10px;height: 500px;" />
+     style=" margin: 30px;height: 500px;" />
 <img src="assets/preview/3.jpeg"
      alt="Markdown Monster icon"
-     style=" margin: 10px;height: 500px;" />
+     style=" margin: 30px;height: 500px;" />
 <img src="assets/preview/4.jpeg"
      alt="Markdown Monster icon"
-     style=" margin: 10px;height: 500px;" />
+     style=" margin: 30px;height: 500px;" />
 <img src="assets/preview/5.jpeg"
      alt="Markdown Monster icon"
-     style=" margin: 10px;height: 500px;" />
+     style=" margin: 30px;height: 500px;" />
 <!-- <img src="assets/preview/2.jpeg"
      alt="Markdown Monster icon"
      style="float: right; margin: 10px;" /> -->
