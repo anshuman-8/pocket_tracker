@@ -181,8 +181,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 color: colorWhite,
               ),
               onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                Navigator.of(context).popAndPushNamed('/myProfile');
+                Navigator.of(context)
+                    .push(MaterialPageRoute(builder: (context) {
+                  return MyProfile(
+                    bills: this._bills,
+                  );
+                }));
               })
         ],
       ),

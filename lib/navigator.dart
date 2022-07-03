@@ -8,5 +8,5 @@ Map<String, Widget Function(BuildContext)> routes = {
   '/login': (context) => LoginScreen(),
   '/signup': (context) => SignupScreen(),
   '/home-screen': (context) => HomeScreen(),
-  '/myProfile': (context) => const MyProfile(),
+  // '/myProfile': (context) => const MyProfile(),
 };
