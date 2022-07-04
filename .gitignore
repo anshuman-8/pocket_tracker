@@ -50,3 +50,6 @@ android/app/build.gradle
 android/app/build.gradle
 android/build.gradle
 android/app/build.gradle
+
+# Firebase related
+android/app/google-services.json
